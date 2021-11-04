@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import NavBar  from "./NavBar";
-import HomePage from "./HomePage";
-import SignUp from "./SignUp";
-import Login from "./Login";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./NavBar";
+import Login from "../pages/Login";
+import EventList from "../pages/EventList";
+import NewEvent from "../pages/NewEvent";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,29 +17,20 @@ function App() {
     });
   }, []);
 
+  if (!user) return <Login onLogin={setUser} />;
+
   return (
     <>
       <NavBar user={user} setUser={setUser} />
-      <main className="body-fill">
-        {user ? (
-          <Switch>
-            <Route path="/">
-              <HomePage user={user}/>
-            </Route>
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/signup">
-              <SignUp setUser={setUser} />
-            </Route>
-            <Route path="/login">
-              <Login setUser={setUser} />
-            </Route>
-            <Route path="/">
-              <HomePage/>
-            </Route>
-          </Switch>
-        )}
+      <main>
+        <Routes>
+          <Route path="/new">
+            <NewEvent user={user} />
+          </Route>
+          <Route path="/">
+            <EventList />
+          </Route>
+        </Routes>
       </main>
     </>
   );

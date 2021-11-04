@@ -1,18 +1,9 @@
 Rails.application.routes.draw do
+  resources :events, only: [:index, :create]
+  post "/signup", to: "users#create"
+  get "/me", to: "users#show"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
   
-  resources :user_invites, only: [:create, :update, :destroy]
-  resources :user_groups, only: [:create, :destroy]
-  resources :groups, only: [:index, :show, :create]
-  resources :invites
-  
-  get '/me', to: 'users#show'
-  post '/login', to: 'sessions#create'
-  post '/signup', to: 'users#create'
-  delete '/logout', to: 'sessions#destroy'
-
-  post '/invites', to: 'invites#create'
-  
-  # Routing logic: fallback requests for React Router.
-  # Leave this here to help deploy your app later!
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Button } from "../styles";
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -11,22 +13,47 @@ function NavBar({ user, setUser }) {
   }
 
   return (
-    <header className="nav-bar-container">
-        <h1 className="neonText pulsate">EVENT INVITE APP
-        </h1>
-      <div>
-      <Link className="nav-bar-link" to="/">HOME</Link>
-        {user ? (
-          <button className="logout-btn" onClick={handleLogoutClick}>LOGOUT</button>
-        ) : (
-          <>
-            <Link className="nav-bar-link" to="/signup">SIGNUP</Link>
-            <Link className="nav-bar-link" to="/login">LOGIN</Link>
-          </>
-        )}
-      </div>
-    </header>
+    <Wrapper>
+      <Logo>
+        <Link to="/">Event App</Link>
+      </Logo>
+      <Nav>
+        <Button as={Link} to="/new">
+          New Event
+        </Button>
+        <Button variant="outline" onClick={handleLogoutClick}>
+          Logout
+        </Button>
+      </Nav>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+`;
+
+const Logo = styled.h1`
+  font-family: "arial";
+  font-size: 3rem;
+  color: black;
+  margin: 0;
+  line-height: 1;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  gap: 4px;
+  position: absolute;
+  right: 8px;
+`;
 
 export default NavBar;
